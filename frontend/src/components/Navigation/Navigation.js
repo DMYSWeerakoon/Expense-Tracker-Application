@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import avatar from '../../img/avatar.png'
-import { signout } from '../../utils/Icons'
-import { menuItems } from '../../utils/menuItems'
+import { signout } from '../../utils/icons'
+import { menuItems } from '../../utils/menuitems'
 
 function Navigation({active, setActive}) {
     
