@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import avatar from '../../img/avatar.png'
+import avatar from '../../components/img/avatar.png'
 import { signout } from '../../utils/icons'
 import { menuItems } from '../../utils/menuitems'
 

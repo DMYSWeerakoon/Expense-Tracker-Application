@@ -1,6 +1,6 @@
 import React, {useState, useMemo} from 'react'
 import styled from "styled-components";
-import bg from './img/bg.png'
+import bg from './components/img/bg.png'
 import {MainLayout} from './styles/Layouts'
 import Orb from './components/Orb/Orb'
 import Navigation from './components/Navigation/Navigation'
