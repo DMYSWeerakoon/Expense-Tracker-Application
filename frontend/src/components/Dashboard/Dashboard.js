@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { useGlobalContext } from '../../context/globalContext';
 import History from '../../History/History';
 import { InnerLayout } from '../../styles/Layouts';
@@ -7,18 +7,19 @@ import { dollar } from '../../utils/icons';
 import Chart from '../Chart/Chart';
 
 function Dashboard() {
-    const {totalExpenses,incomes, expenses, totalIncome, totalBalance, getIncomes, getExpenses } = useGlobalContext()
+    const { totalExpenses, incomes, expenses, totalIncome, totalBalance, getIncomes, getExpenses } = useGlobalContext();
 
     useEffect(() => {
-        getIncomes()
-        getExpenses()
-    }, [])
+        getIncomes();
+        getExpenses();
+    }, []);
 
     return (
         <DashboardStyled>
             <InnerLayout>
                 <h1>All Transactions</h1>
                 <div className="stats-con">
+                    {/* Chart and Summary Section */}
                     <div className="chart-con">
                         <Chart />
                         <div className="amount-con">
@@ -42,106 +43,121 @@ function Dashboard() {
                             </div>
                         </div>
                     </div>
+
+                    {/* Recent History Section */}
                     <div className="history-con">
                         <History />
-                        <h2 className="salary-title">Min <span>Salary</span>Max</h2>
-                        <div className="salary-item">
-                            <p>
-                                ${Math.min(...incomes.map(item => item.amount))}
-                            </p>
-                            <p>
-                                ${Math.max(...incomes.map(item => item.amount))}
-                            </p>
+                        <div className="recent-history">
+                            <h2>Recent History</h2>
+                            <ul>
+                                {expenses.slice(0, 3).map((expense, index) => (
+                                    <li key={index} className={expense.amount < 0 ? 'expense-item' : 'income-item'}>
+                                        <span>{expense.title}</span>
+                                        <span>{expense.amount < 0 ? '-' : '+'}${Math.abs(expense.amount)}</span>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        <h2 className="salary-title">Min <span>Expense</span>Max</h2>
+
+                        {/* Salary Min/Max Section */}
+                        <h2 className="salary-title">Min <span>Salary</span> Max</h2>
                         <div className="salary-item">
-                            <p>
-                                ${Math.min(...expenses.map(item => item.amount))}
-                            </p>
-                            <p>
-                                ${Math.max(...expenses.map(item => item.amount))}
-                            </p>
+                            <p>${Math.min(...incomes.map(item => item.amount))}</p>
+                            <p>${Math.max(...incomes.map(item => item.amount))}</p>
+                        </div>
+
+                        {/* Expense Min/Max Section */}
+                        <h2 className="salary-title">Min <span>Expense</span> Max</h2>
+                        <div className="salary-item">
+                            <p>${Math.min(...expenses.map(item => item.amount))}</p>
+                            <p>${Math.max(...expenses.map(item => item.amount))}</p>
                         </div>
                     </div>
                 </div>
             </InnerLayout>
         </DashboardStyled>
-    )
+    );
 }
 
 const DashboardStyled = styled.div`
-    .stats-con{
+    .stats-con {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 2rem;
-        .chart-con{
+        grid-template-columns: repeat(5, 1fr); /* Defines the layout for the stats */
+        gap: 1.5rem; /* Reduce spacing between sections */
+        margin-top: 1.5rem; /* Reduced spacing at the top */
+        
+        .chart-con {
             grid-column: 1 / 4;
-            height: 400px;
-            .amount-con{
-                display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                gap: 2rem;
-                margin-top: 2rem;
-                .income, .expense{
-                    grid-column: span 2;
-                }
-                .income, .expense, .balance{
+            height: 300px; /* Reduce height to eliminate extra space */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .amount-con {
+                display: flex;
+                justify-content: space-between;
+                gap: 1.5rem; /* Reduce spacing between the cards */
+                margin-top: 1rem; /* Reduce top margin */
+
+                .income, .expense, .balance {
+                    flex: 1;
+                    padding: 0.8rem; /* Reduced padding for tighter design */
+                    border-radius: 12px; /* Smaller radius for corners */
+                    text-align: center;
+                    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.08); /* Lighter shadow */
                     background: #FCF6F9;
-                    border: 2px solid #FFFFFF;
-                    box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-                    border-radius: 20px;
-                    padding: 1rem;
-                    p{
-                        font-size: 3.5rem;
-                        font-weight: 700;
+
+                    h2 {
+                        margin-bottom: 0.4rem;
+                        font-size: 1.1rem; /* Smaller font size */
+                    }
+
+                    p {
+                        font-size: 1.8rem; /* Adjust font size */
+                        font-weight: bold;
                     }
                 }
 
-                .balance{
-                    grid-column: 2 / 4;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    p{
-                        color: var(--color-green);
-                        opacity: 0.6;
-                        font-size: 4.5rem;
-                    }
+                .balance {
+                    color: var(--color-green);
+                    font-size: 2.2rem; /* Slightly smaller for balance text */
                 }
             }
         }
 
-        .history-con{
+        .history-con {
             grid-column: 4 / -1;
-            h2{
-                margin: 1rem 0;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-            .salary-title{
-                font-size: 1.2rem;
-                span{
-                    font-size: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem; /* Reduce spacing between history items */
+
+            .salary-title {
+                font-size: 1.1rem; /* Smaller font for titles */
+                margin: 0.4rem 0;
+                span {
+                    font-size: 1.4rem; /* Reduce span size */
+                    font-weight: bold;
                 }
             }
-            .salary-item{
-                background: #FCF6F9;
-                border: 2px solid #FFFFFF;
-                box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-                padding: 1rem;
-                border-radius: 20px;
+
+            .salary-item {
                 display: flex;
                 justify-content: space-between;
-                align-items: center;
-                p{
+                align-items: center; /* Vertically center text */
+                padding: 0.6rem 1rem; /* Reduce padding */
+                background: #FCF6F9;
+                border-radius: 12px; /* Consistent radius */
+                box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.08); /* Match shadow */
+                
+                p {
+                    font-size: 1.4rem; /* Adjust font size */
                     font-weight: 600;
-                    font-size: 1.6rem;
                 }
             }
         }
     }
 `;
 
-export default Dashboard
+
+
+export default Dashboard;
