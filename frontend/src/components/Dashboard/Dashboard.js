@@ -46,7 +46,7 @@ function Dashboard() {
                     {/* Recent History Section */}
                     <div className="history-con">
                         <History />
-                        <div className="recent-history">
+                        {/* <div className="recent-history">
                             <h2>Recent History</h2>
                             <ul>
                                 {expenses.slice(0, 3).map((expense, index) => (
@@ -56,7 +56,7 @@ function Dashboard() {
                                     </li>
                                 ))}
                             </ul>
-                        </div>
+                        </div> */}
 
                         {/* Salary Min/Max Section */}
                         <h2 className="salary-title">Min <span>Salary</span> Max</h2>
